@@ -28,15 +28,7 @@ class Member extends CI_Controller {
     }
     
     function add_post(){
-        $model_name = $_POST['ol_table'];
-
-        $instance = R::dispense($model_name);
-        
-        $store = R::load('stores', '1');
-        $store->ownMembers = array($instance);
-        R::store($store);
-        $id = R::store($instance);        
-#        $this->ol->inject();
+        $this->ol->inject();
         redirect('/member');        
     }
         
