@@ -1,6 +1,6 @@
 <form action='/demo/inject' method='post'>
-    <p>Model Name: Articles<input type='hidden' name='ol_model_name' value='articles' /></p>
-    <p>Price: <input type='text' name='ol_price' /></p>
+    <p>Model Name: Articles<input type='hidden' name='ol_table_name' value='articles' /></p>
     <p>Title: <input type='text' name='ol_title' /></p>
+    <p>Content: <textarea name='ol_content'></textarea></p>
     <p><input type='submit' value='SEND' /></p>
 </form>
