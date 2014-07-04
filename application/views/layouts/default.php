@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
+    <meta charset='utf8' />
 		<title><?php echo $template['title']; ?></title>
 		<?php echo $template['metadata']; ?>
     <link rel="stylesheet" href="/assets/css/font-awesome.min.css">
