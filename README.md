@@ -29,7 +29,7 @@ Let's say, you need a blogging system.
 view
 ```html
 <form action='/blog/create' method='post'>
-    Model Name: Articles<input type='hidden' name='ol_model_name' value='articles' />
+    Table Name: Articles<input type='hidden' name='ol_table' value='articles' />
     Title: <input type='text' name='ol_title' />
     Content: <input type='text' name='ol_content' />
     <input type='submit' value='SEND' />
