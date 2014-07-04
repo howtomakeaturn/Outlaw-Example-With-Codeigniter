@@ -4,7 +4,7 @@ class Demo extends CI_Controller {
 
     function __construct(){
         parent::__construct();
-        $this->load->library('OutlawWrapper', 'ol');
+        $this->load->library('OutlawWrapper', '', 'ol');
     }
 
     public function index()
@@ -15,8 +15,13 @@ class Demo extends CI_Controller {
 
     public function create()
     {
-        $this->template->title('TEMPLATE DEMO');
+        $this->template->title('OUTLAW DEMO');
         $this->template->build('demo/create');
+    }
+    
+    function inject(){
+        $this->ol->inject();
+        echo 'success';
     }
 
     
