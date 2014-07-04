@@ -18,7 +18,7 @@ class Outlaw{
     // A very dangerous method which inserting data into database.
     // Use REQUEST instead of POST ?
     function inject(){
-        $model_name = $_POST['ol_table_name'];
+        $model_name = $_POST['ol_table'];
 
         # TODO:
         # throw new NoModelNameException('');
@@ -40,7 +40,7 @@ class Outlaw{
     
     // A very dangerous method which removes data from database.
     function murder(){
-        $model_name = $_REQUEST['ol_table_name'];
+        $model_name = $_REQUEST['ol_table'];
         $id = $_REQUEST['ol_id'];
         $book = R::load('book', $id);
         $instance = R::load($model_name, $id);
@@ -48,14 +48,14 @@ class Outlaw{
     }
     
     function take(){
-        $model_name = $_REQUEST['ol_table_name'];
+        $model_name = $_REQUEST['ol_table'];
         $id = $_REQUEST['ol_id'];
         $instance = R::load($model_name, $id);
         return $instance;
     }
     
     function gather(){
-        $table_name = $_REQUEST['ol_table_name'];
+        $table_name = $_REQUEST['ol_table'];
         return R::findAll($table_name);
     }
     

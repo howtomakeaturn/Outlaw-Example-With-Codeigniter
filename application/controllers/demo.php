@@ -11,8 +11,8 @@ class Demo extends CI_Controller {
     }
 
     public function index(){
-        if (!$_REQUEST['ol_table_name']){
-            redirect('/demo/index?ol_table_name=articles');
+        if (!$_REQUEST['ol_table']){
+            redirect('/demo/index?ol_table=articles');
         }
       
         # Maybe this is an option.
@@ -41,6 +41,12 @@ class Demo extends CI_Controller {
         $this->data['article'] = $this->ol->take();
         $this->template->build('demo/edit', $this->data);        
     }
+
+    function view(){
+        $this->data['article'] = $this->ol->take();
+        $this->template->build('demo/view', $this->data);        
+    }
+
     
 }
 

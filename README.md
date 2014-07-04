@@ -18,7 +18,7 @@ It implements every feature your teachers ask you not to do.
 
 ## Rules
 * Prefix every html input fields name with 'ol_'
-* The input 'ol_table_name' determines which table to manipulate.
+* The input 'ol_table' determines which table to manipulate.
 * The input 'ol_id' is the primary key if needed.
 * Pass everything via url parameters.
 
@@ -30,15 +30,13 @@ view
 ```html
 <form action='/blog/create' method='post'>
     Model Name: Articles<input type='hidden' name='ol_model_name' value='articles' />
-    Price: <input type='text' name='ol_price' />
     Title: <input type='text' name='ol_title' />
+    Content: <input type='text' name='ol_content' />
     <input type='submit' value='SEND' />
 </form>
 ```
-* Outlaw ask you to prefix every fields with ol_
-* ol_table_name is the table name
-* ol_id is the primary key
-* In this case, we have two fields 'price' and 'title'
+* we want to create a 'articles' table
+* We need two fields 'title' and 'content'
 
 controller
 ```php
@@ -50,6 +48,6 @@ public function create()
 ```
 You don't need to pass any arguments in controller.
 You don't need to implement any models for database.
-Just ask the Outlaw to do the bad things for you!
+The Outlaw do all the evil things for you!
 
 Now check your database, the 'articles' table is created, and you just inserted one row into it!
