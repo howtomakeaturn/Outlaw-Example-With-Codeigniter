@@ -1,0 +1,6 @@
+<IfModule mod_rewrite.c>
+RewriteEngine on
+RewriteBase /
+RewriteCond $1 !^(index\.php|index.htm|admin|assets|upload|robots\.txt|unit_test.php|tests|user_guide|$)
+RewriteRule ^(.*)$ index.php/$1 [L,QSA]
+</IfModule>
