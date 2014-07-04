@@ -1,31 +1,37 @@
-codeigniter-scaffolding
-=======================
+# Outlaw
 
-a scaffolding based on codeigniter
+A very dangerous PHP library maybe you will need.
 
-###This scaffolding is for developer who:###
+* Help you build tables in a very dirty but really fast way.
+* Guess the table name and fields from HTML.
+* Security isn't the first thing the Outlaw cares.
+* You Need to obey the instructions Outlaw ask you to do.
 
-* want to build a new web application based on codeigniter
+Let's say, you need a blogging system.
 
-* think jquery is neccessary
+view
+```html
+<form action='/blog/create' method='post'>
+    Model Name: Articles<input type='hidden' name='ol_model_name' value='articles' />
+    Price: <input type='text' name='ol_price' />
+    Title: <input type='text' name='ol_title' />
+    <input type='submit' value='SEND' />
+</form>
+```
+* Outlaw ask you to prefix every fields with ol_
+* ol_model_name is the table name
+* In this case, we have two fields 'price' and 'title'
 
-* think bootstrap css is neccessary
+controller
+```php
+public function create()
+{
+    $ol = new Outlaw();
+    $ol->inject();
+}    
+```
+You don't need to pass any arguments in controller.
+You don't need to implement any models for database.
+Just ask the Outlaw to do the bad things for you!
 
-* think bootstrap js is neccessary
-
-* think CI's native active record is not convinient enough, therefore want [jamierumbelow's codeigniter-base-model](https://github.com/jamierumbelow/codeigniter-base-model "CodeIgniter base CRUD model to remove repetition and increase productivity")
-
-* need a template engine, and choose [philsturgeon's codeigniter-template](https://github.com/philsturgeon/codeigniter-template "Template library for CodeIgniter which supports modules, themes, partial views, etc.")
-
-* need to do tests, and choose [ericbarnes's codeigniter-simpletest](https://github.com/ericbarnes/codeigniter-simpletest "Simpletest Integration for CodeIgniter http://ericlbarnes.com")
-
-* want to use some beautiful icons and choose [Font-Awesome](https://github.com/FortAwesome/Font-Awesome "The iconic font designed for Bootstrap http://fontawesome.io")
-
-* think the url shouldn't start with index.php, therefore want a .htaccess file to overcome this
-
-* dont want to download and set all above things by hands
-
-###Usage###
-
-Just download the project and use it like a normal codeigniter framework. 
-The resources above is settled down there for you.
+Now check your database, the 'articles' table is created, and you just inserted one row into it!
