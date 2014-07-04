@@ -55,7 +55,7 @@ class Outlaw{
         return $instance;
     }
 
-    function update(){
+    function pollute(){
         $model_name = $_REQUEST['ol_table'];
         $id = $_REQUEST['ol_id'];
         $instance = R::load($model_name, $id);

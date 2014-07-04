@@ -42,8 +42,8 @@ class Store extends CI_Controller {
     }
 
     function edit(){
-        $this->data['article'] = $this->ol->take();
-        $this->template->build('demo/edit', $this->data);        
+        $this->data['store'] = $this->ol->take();
+        $this->template->build('store/edit', $this->data);        
     }
 
     function view(){
@@ -51,9 +51,9 @@ class Store extends CI_Controller {
         $this->template->build('demo/view', $this->data);        
     }
     
-    function update(){
-        $id = $this->ol->update();
-        redirect('/demo/view?ol_table=articles&ol_id=' . $id);
+    function edit_post(){
+        $id = $this->ol->pollute();
+        redirect('/store/index');
     }
 
     

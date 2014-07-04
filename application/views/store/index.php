@@ -7,6 +7,7 @@
         <th>電話</th>
         <th>地址</th>
         <th>後台帳號</th>
+        <th>動作</th>
     </tr>
     <?php foreach($stores as $store): ?>
     <tr>
@@ -16,6 +17,10 @@
         <td><?php echo $store->phone ?></td>
         <td><?php echo $store->address ?></td>    
         <td><?php echo $store->account ?></td>    
+        <td>
+            <a class="btn btn-warning" href='/store/edit?ol_table=stores&ol_id=<?php echo $store->id ?>'><i class="fa fa-pencil fa-fw"></i></a>
+
+        </td>
     </tr>    
     <?php endforeach; ?>
 

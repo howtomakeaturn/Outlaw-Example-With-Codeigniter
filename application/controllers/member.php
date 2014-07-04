@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Demo extends CI_Controller {
+class Member extends CI_Controller {
     
     protected $data = array();
     
@@ -12,19 +12,23 @@ class Demo extends CI_Controller {
 
     public function index(){
         if (!$_REQUEST['ol_table']){
-            redirect('/demo/index?ol_table=articles');
+            redirect('/member/index?ol_table=members');
         }
       
         # Maybe this is an option.
         # $this->data['articles'] = $this->ol->getAll('articles');
-        $this->data['articles'] = $this->ol->gather();
-        $this->template->build('demo/index', $this->data);
+        $this->data['members'] = $this->ol->gather();
+        $this->template->build('member/index', $this->data);
     }
 
-    public function create()
+    public function add()
     {
-        $this->template->title('OUTLAW DEMO');
-        $this->template->build('demo/create');
+        $this->template->build('member/add');
+    }
+    
+    function add_post(){
+        $this->ol->inject();
+        redirect('/member');        
     }
         
     function inject(){
@@ -38,8 +42,8 @@ class Demo extends CI_Controller {
     }
 
     function edit(){
-        $this->data['article'] = $this->ol->take();
-        $this->template->build('demo/edit', $this->data);        
+        $this->data['store'] = $this->ol->take();
+        $this->template->build('store/edit', $this->data);        
     }
 
     function view(){
@@ -47,9 +51,9 @@ class Demo extends CI_Controller {
         $this->template->build('demo/view', $this->data);        
     }
     
-    function update(){
+    function edit_post(){
         $id = $this->ol->pollute();
-        redirect('/demo/view?ol_table=articles&ol_id=' . $id);
+        redirect('/store/index');
     }
 
     
