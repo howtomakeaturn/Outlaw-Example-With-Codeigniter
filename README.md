@@ -64,15 +64,19 @@ No migration needed, no database schema needed.
 * inject (create)
 
 > expects $_REQUEST['ol_table'] and other parameters prefixed with 'ol_'
+
 * take (read)
 
 > expects $_REQUEST['ol_table'] and $_REQUEST['ol_id']
+
 * update 
 
 > expects $_REQUEST['ol_table'], $_REQUEST['ol_id'], and other parameters prefixed with 'ol_'
+
 * murder (delete)
 
 > expects $_REQUEST['ol_table'] and $_REQUEST['ol_id']
+
 * gather (getAll)
 
 > expects $_REQUEST['ol_table']
