@@ -12,7 +12,7 @@
     <?php foreach($members as $member): ?>
     <tr>
         <td><?php echo $member->id ?></td>
-        <td><?php echo $member->name ?></td>
+        <td><?php echo $member->stores->name ?></td>
         <td><?php echo $member->name ?></td>
         <td><?php echo $member->gender ?></td>
         <td><?php echo $member->birthday ?></td>    

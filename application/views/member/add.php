@@ -4,7 +4,11 @@
 
     <div class="form-group">
         <label>建檔店別</label>
-        <input type="text" class="form-control" name='' >
+        <select class="form-control" name='ol_store_id'>
+            <?php foreach($stores as $store): ?>
+                <option value='<?php echo $store->id ?>'><?php echo $store->name ?></option>
+            <?php endforeach; ?>
+        </select>        
     </div>
 
     <div class="form-group">

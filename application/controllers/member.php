@@ -23,11 +23,20 @@ class Member extends CI_Controller {
 
     public function add()
     {
-        $this->template->build('member/add');
+        $this->data['stores'] = R::findAll('stores');
+        $this->template->build('member/add', $this->data);
     }
     
     function add_post(){
-        $this->ol->inject();
+        $model_name = $_POST['ol_table'];
+
+        $instance = R::dispense($model_name);
+        
+        $store = R::load('stores', '1');
+        $store->ownMembers = array($instance);
+        R::store($store);
+        $id = R::store($instance);        
+#        $this->ol->inject();
         redirect('/member');        
     }
         
