@@ -55,3 +55,26 @@ Now check your database, the 'articles' table is created, and you just inserted 
 ## Setup
 In config file, set database name and password.
 No migration needed, no database schema needed.
+
+## Reserved Words in html input name
+* ol_table
+* ol_id
+
+## API
+* inject (create)
+> expects $_REQUEST['ol_table'] and other parameters prefixed with 'ol_'
+* take (read)
+> expects $_REQUEST['ol_table'] and $_REQUEST['ol_id']
+* update 
+> expects $_REQUEST['ol_table'], $_REQUEST['ol_id'], and other parameters prefixed with 'ol_'
+* murder (delete)
+> expects $_REQUEST['ol_table'] and $_REQUEST['ol_id']
+* gather (getAll)
+> expects $_REQUEST['ol_table']
+
+## Technical Detail
+Manipulate the database with Redbeanphp 3.5
+http://redbeanphp.com/manual3_0/quick_tour
+That's why the Outlaw doesn't need migrations or existing tables.
+
+Using $_REQUEST array in PHP directly, so you can pass variable either by GET or POST.
