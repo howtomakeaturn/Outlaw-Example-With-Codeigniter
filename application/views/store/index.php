@@ -6,6 +6,7 @@
         <th>負責人</th>
         <th>電話</th>
         <th>地址</th>
+        <th>後台帳號</th>
     </tr>
     <?php foreach($stores as $store): ?>
     <tr>
@@ -14,6 +15,7 @@
         <td><?php echo $store->boss ?></td>
         <td><?php echo $store->phone ?></td>
         <td><?php echo $store->address ?></td>    
+        <td><?php echo $store->account ?></td>    
     </tr>    
     <?php endforeach; ?>
 
