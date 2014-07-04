@@ -51,3 +51,7 @@ You don't need to implement any models for database.
 The Outlaw do all the evil things for you!
 
 Now check your database, the 'articles' table is created, and you just inserted one row into it!
+
+## Setup
+In config file, set database name and password.
+No migration needed, no database schema needed.

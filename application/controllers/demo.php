@@ -46,6 +46,11 @@ class Demo extends CI_Controller {
         $this->data['article'] = $this->ol->take();
         $this->template->build('demo/view', $this->data);        
     }
+    
+    function update(){
+        $id = $this->ol->update();
+        redirect('/demo/view?ol_table=articles&ol_id=' . $id);
+    }
 
     
 }

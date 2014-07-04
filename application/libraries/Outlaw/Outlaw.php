@@ -36,6 +36,7 @@ class Outlaw{
         }
 
         $id = R::store($instance);        
+        return $id;
     }
     
     // A very dangerous method which removes data from database.
@@ -52,6 +53,28 @@ class Outlaw{
         $id = $_REQUEST['ol_id'];
         $instance = R::load($model_name, $id);
         return $instance;
+    }
+
+    function update(){
+        $model_name = $_REQUEST['ol_table'];
+        $id = $_REQUEST['ol_id'];
+        $instance = R::load($model_name, $id);
+
+        foreach($_REQUEST as $key => $value){
+            if (strpos($key, 'ol_')===0){
+                $attr_name = substr($key, 3);
+                if ($attr_name === 'table'){
+                    continue;
+                }
+                if ($attr_name === 'id'){
+                    continue;
+                }
+                $instance->$attr_name = $value;
+            }
+        }
+
+        $id = R::store($instance);                
+        return $id;
     }
     
     function gather(){
