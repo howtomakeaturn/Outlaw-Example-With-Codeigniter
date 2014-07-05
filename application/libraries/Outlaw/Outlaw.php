@@ -21,7 +21,9 @@ class Outlaw{
         
         $this->validate = array(
             'articles' => array(
-                'required' => ['ol_title', 'ol_content']
+                // notice the attribute is wrapped in an array even it's just a string
+                'required' => [['ol_title'], ['ol_content']],
+                'lengthMin' => [['ol_title', 5], ['ol_content', 10]]
             )
         );
                 
@@ -63,13 +65,15 @@ class Outlaw{
             }
         }
 
-        $v = new Valitron\Validator($_POST);
+        $v = new Valitron\Validator($_REQUEST);
 
         $rules = $this->validate[$table_name];
+        $v->rules($rules);
+        /*
         foreach($rules as $key => $value){
             $v->rule($key, $value);          
         }
-                              
+        */
         if($v->validate()) {
 #            echo "Yay! We're all good!";
         } else {
