@@ -1,8 +1,11 @@
 <?php
 
 require_once(realpath(dirname(__FILE__)) . '/src/rb.php');
-
+require_once(__DIR__ . '/src/Valitron/Validator.php');
+use Valitron\Validator as V;
 class Outlaw{
+    
+    protected $validate;
     
     function __construct(){
         $configs = array(
@@ -12,7 +15,16 @@ class Outlaw{
         );
 
         R::setup($configs['dns'], $configs['db_user'], $configs['db_password']);    
-      
+        
+        V::langDir(__DIR__.'/src/Valitron/lang'); // always set langDir before lang.
+        V::lang('en');
+        
+        $this->validate = array(
+            'articles' => array(
+                'required' => ['ol_title', 'ol_content']
+            )
+        );
+                
     }
 
     /*
@@ -49,6 +61,20 @@ class Outlaw{
                 }
 
             }
+        }
+
+        $v = new Valitron\Validator($_POST);
+
+        $rules = $this->validate[$table_name];
+        foreach($rules as $key => $value){
+            $v->rule($key, $value);          
+        }
+                              
+        if($v->validate()) {
+#            echo "Yay! We're all good!";
+        } else {
+            // Errors
+            exit(var_export($v->errors()));
         }
 
         $id = R::store($instance);        
