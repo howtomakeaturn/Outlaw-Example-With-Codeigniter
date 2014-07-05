@@ -114,9 +114,15 @@ foreach ($user->ownArticles as $article){
 > expects $_REQUEST['ol_table']
 
 ## Technical Detail
-Manipulate the database with Redbeanphp 3.5
+* Manipulate the database with Redbeanphp 3.5
+
 http://redbeanphp.com/manual3_0/quick_tour
+
 That's why the Outlaw doesn't need migrations or existing tables.
 
-Using $_REQUEST array in PHP directly, so you can pass variable either by GET or POST or even COOKIE.
+* Validating with Valitron
+
+https://github.com/vlucas/valitron
+
+* Using $_REQUEST array in PHP directly, so you can pass variable either by GET or POST or even COOKIE.
 
