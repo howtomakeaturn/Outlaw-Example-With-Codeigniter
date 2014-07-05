@@ -2,11 +2,12 @@
 
 require_once(realpath(dirname(__FILE__)) . '/src/rb.php');
 require_once(__DIR__ . '/src/Valitron/Validator.php');
+require_once(__DIR__ . '/src/Exceptions.php');
 use Valitron\Validator as V;
 class Outlaw{
     
     protected $validate;
-    
+    protected $errors;
     function __construct(){
         $configs = array(
             'dns' => 'mysql:host=localhost;dbname=koala',
@@ -34,7 +35,7 @@ class Outlaw{
      * 
      */
     function inject($table_name=null){
-        $table_name = ($table_name) ? $table_name : $this->guessTableName();
+        if (!$table_name) throw new OutlawNoTableName();
 
         # TODO:
         # throw new NoModelNameException('');
@@ -66,23 +67,19 @@ class Outlaw{
         }
 
         $v = new Valitron\Validator($_REQUEST);
-
         $rules = $this->validate[$table_name];
         $v->rules($rules);
-        /*
-        foreach($rules as $key => $value){
-            $v->rule($key, $value);          
-        }
-        */
-        if($v->validate()) {
-#            echo "Yay! We're all good!";
-        } else {
-            // Errors
-            exit(var_export($v->errors()));
+        if(!$v->validate()) {
+            $this->errors = $v->errors();
+            return false;
         }
 
         $id = R::store($instance);        
         return $id;
+    }
+    
+    function getErrors(){
+        return $this->errors;
     }
     
     // A very dangerous method which removes data from database.
@@ -95,16 +92,16 @@ class Outlaw{
     }
     
     function take($table_name=null, $id=null){
-        $table_name = ($table_name) ? $table_name : $this->guessTableName();
+        if (!$table_name) throw new OutlawNoTableName();
         $id = ($id) ? $id : $this->guessId();
         $instance = R::load($table_name, $id);
         return $instance;
     }
 
-    function pollute(){
-        $model_name = $_REQUEST['ol_table'];
+    function pollute($table_name=null){
+        if (!$table_name) throw new OutlawNoTableName();
         $id = $_REQUEST['ol_id'];
-        $instance = R::load($model_name, $id);
+        $instance = R::load($table_name, $id);
 
         foreach($_REQUEST as $key => $value){
             if (strpos($key, 'ol_')===0){
@@ -119,6 +116,14 @@ class Outlaw{
             }
         }
 
+        $v = new Valitron\Validator($_REQUEST);
+        $rules = $this->validate[$table_name];
+        $v->rules($rules);
+        if(!$v->validate()) {
+            $this->errors = $v->errors();
+            return false;
+        }
+
         $id = R::store($instance);                
         return $id;
     }
@@ -130,20 +135,12 @@ class Outlaw{
      * @return Array of RedBean beans
      */
     function gather($table_name=null){
-        $table_name = ($table_name) ? $table_name : $this->guessTableName();
+        if (!$table_name) throw new OutlawNoTableName();
         return R::findAll($table_name);
     }
     
-    /*
-     * Guess the table name by the $_REQUEST parameters.
-     */
-    function guessTableName(){
-        return $_REQUEST['ol_table'];
-    }
-
     function guessId(){
         return $_REQUEST['ol_id'];
-    }
-
+    }    
     
 }

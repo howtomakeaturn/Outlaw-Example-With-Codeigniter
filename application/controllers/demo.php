@@ -11,13 +11,8 @@ class Demo extends CI_Controller {
     }
 
     public function index(){
-        if (!$_REQUEST['ol_table']){
-            redirect('/demo/index?ol_table=articles');
-        }
       
-        # Maybe this is an option.
-        # $this->data['articles'] = $this->ol->getAll('articles');
-        $this->data['articles'] = $this->ol->gather();
+        $this->data['articles'] = $this->ol->gather('articles');
         $this->template->build('demo/index', $this->data);
     }
 
@@ -28,8 +23,12 @@ class Demo extends CI_Controller {
     }
         
     function inject(){
-        $this->ol->inject();
-        redirect('/demo');
+        if ( $this->ol->inject('articles') ){
+            redirect('/demo');          
+        }
+        else{
+            exit(var_export($this->ol->getErrors()));
+        }
     }
     
     function delete(){
@@ -38,18 +37,22 @@ class Demo extends CI_Controller {
     }
 
     function edit(){
-        $this->data['article'] = $this->ol->take();
+        $this->data['article'] = $this->ol->take('articles');
         $this->template->build('demo/edit', $this->data);        
     }
 
     function view(){
-        $this->data['article'] = $this->ol->take();
+        $this->data['article'] = $this->ol->take('articles');
         $this->template->build('demo/view', $this->data);        
     }
     
     function update(){
-        $id = $this->ol->pollute();
-        redirect('/demo/view?ol_table=articles&ol_id=' . $id);
+        if ($id = $this->ol->pollute('articles')){
+            redirect('/demo/view?ol_table=articles&ol_id=' . $id);
+        }
+        else{
+            exit(var_export($this->ol->getErrors()));
+        }
     }
 
     

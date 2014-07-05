@@ -87,14 +87,42 @@ foreach ($user->ownArticles as $article){
 }
 ```
 
+### Validation
+Validating with Valitron:
+
+https://github.com/vlucas/valitron
+
+```php
+    // Set all the fields and table in config file.
+    $this->validate = array(
+        'articles' => array(
+            // notice the attribute is wrapped in an array even it's just a string
+            'required' => [['ol_title'], ['ol_content']],
+            'lengthMin' => [['ol_title', 5], ['ol_content', 10]]
+        )
+    );
+
+```
+It utilize in inject and pollute method.
+If fail to pass validation, they return false. 
+And you can get validation error message by getError methd.
+```php
+      if ($id = $this->ol->pollute('articles')){
+          redirect('/demo/view?ol_id=' . $id);
+      }
+      else{
+          exit(var_export($this->ol->getErrors()));
+      }
+
+```
+
 ## Reserved Words in html input name
-* ol_table
 * ol_id
 * ol_belong_*
 
 ## Design Principle
 ### Type as less characters as possible
-* If you type any kind of attribute name in html, then you don't need to type it again in controller:
+* If you type any kind of attribute name in html, then you don't need to type it again in controller, model, migration, and sql server.
 * If type it in controller is shorter, then don't type it in html:
 ```php
     $ol->inject('articles');
@@ -132,7 +160,7 @@ http://redbeanphp.com/manual3_0/quick_tour
 
 That's why the Outlaw doesn't need migrations or existing tables.
 
-* Validating with Valitron
+* Validating with Valitron 1.1.7
 
 https://github.com/vlucas/valitron
 
