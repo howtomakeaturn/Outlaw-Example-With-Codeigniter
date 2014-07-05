@@ -20,7 +20,7 @@ It implements every feature your teachers ask you not to do.
 * Prefix every html input fields name with 'ol_'
 * The input 'ol_table' determines which table to manipulate.
 * The input 'ol_id' is the primary key if needed.
-* Pass everything via url parameters.
+* Pass everything via url parameters if possible.
 
 ## Setup
 In config file, set database name and password.
@@ -57,7 +57,7 @@ The Outlaw do all the evil things for you!
 Now check your database, the 'articles' table is created, and you just inserted one row into it!
 
 ## Advanced Topics
-One-to-many Relationship
+### One-to-many Relationship
 Let's say you want to assign an author for the article.
 The user has an id value of 5 in table.
 ```html
@@ -101,7 +101,7 @@ foreach ($user->ownArticles as $article){
 
 > expects $_REQUEST['ol_table'] and $_REQUEST['ol_id']
 
-* update 
+* pollute (update)
 
 > expects $_REQUEST['ol_table'], $_REQUEST['ol_id'], and other parameters prefixed with 'ol_'
 
