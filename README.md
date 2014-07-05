@@ -92,6 +92,18 @@ foreach ($user->ownArticles as $article){
 * ol_id
 * ol_belong_*
 
+## Design Principle
+### Type as less characters as possible
+* If you type any kind of attribute name in html, then you don't need to type it again in controller:
+* If type it in controller is shorter, then don't type it in html:
+```php
+    $ol->inject('articles');
+```
+is much shorter than
+```html
+    <input type='hidden' name='ol_table' value='articles' />
+```
+
 ## API
 * inject (create)
 
