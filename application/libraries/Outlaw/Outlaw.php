@@ -14,21 +14,23 @@ class Outlaw{
         R::setup($configs['dns'], $configs['db_user'], $configs['db_password']);    
       
     }
-    
-    // A very dangerous method which inserting data into database.
-    // Use REQUEST instead of POST ?
-    function inject(){
-        $model_name = $_POST['ol_table'];
+
+    /*
+     * A very dangerous method which inserting data into database.
+     * 
+     */
+    function inject($table_name=null){
+        $table_name = ($table_name) ? $table_name : $this->guessTableName();
 
         # TODO:
         # throw new NoModelNameException('');
 
-        $instance = $book = R::dispense($model_name);
+        $instance = $book = R::dispense($table_name);
 
-        foreach($_POST as $key => $value){
+        foreach($_REQUEST as $key => $value){
             if (strpos($key, 'ol_')===0){
                 $attr_name = substr($key, 3);
-                if ($attr_name === 'model_name'){
+                if ($attr_name === 'table'){
                     continue;
                 }
                 $instance->$attr_name = $value;
@@ -48,10 +50,10 @@ class Outlaw{
         R::trash( $instance );        
     }
     
-    function take(){
-        $model_name = $_REQUEST['ol_table'];
-        $id = $_REQUEST['ol_id'];
-        $instance = R::load($model_name, $id);
+    function take($table_name=null, $id=null){
+        $table_name = ($table_name) ? $table_name : $this->guessTableName();
+        $id = ($id) ? $id : $this->guessId();
+        $instance = R::load($table_name, $id);
         return $instance;
     }
 
@@ -77,9 +79,27 @@ class Outlaw{
         return $id;
     }
     
-    function gather(){
-        $table_name = $_REQUEST['ol_table'];
+    /*
+     * Fetch all rows from the table.
+     * It guesses the table name if you don't provide.
+     * @params String
+     * @return Array of RedBean beans
+     */
+    function gather($table_name=null){
+        $table_name = ($table_name) ? $table_name : $this->guessTableName();
         return R::findAll($table_name);
     }
+    
+    /*
+     * Guess the table name by the $_REQUEST parameters.
+     */
+    function guessTableName(){
+        return $_REQUEST['ol_table'];
+    }
+
+    function guessId(){
+        return $_REQUEST['ol_id'];
+    }
+
     
 }

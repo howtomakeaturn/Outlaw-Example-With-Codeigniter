@@ -11,13 +11,7 @@ class Store extends CI_Controller {
     }
 
     public function index(){
-        if (!$_REQUEST['ol_table']){
-            redirect('/store/index?ol_table=stores');
-        }
-      
-        # Maybe this is an option.
-        # $this->data['articles'] = $this->ol->getAll('articles');
-        $this->data['stores'] = $this->ol->gather();
+        $this->data['stores'] = $this->ol->gather('stores');
         $this->template->build('store/index', $this->data);
     }
 
@@ -41,8 +35,9 @@ class Store extends CI_Controller {
         redirect('/demo');
     }
 
-    function edit(){
-        $this->data['store'] = $this->ol->take();
+    function edit($id){
+#        $this->data['store'] = $this->ol->take();
+        $this->data['store'] = $this->ol->take('stores', $id);
         $this->template->build('store/edit', $this->data);        
     }
 
@@ -55,7 +50,6 @@ class Store extends CI_Controller {
         $id = $this->ol->pollute();
         redirect('/store/index');
     }
-
     
 }
 
