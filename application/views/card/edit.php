@@ -1,46 +1,39 @@
-<form role="form" action='/store/edit_post' method='post'>
+<form role="form" action='/card/add_post' method='post'>
 
-    <input type='hidden' name='ol_table' value='stores' /></p>
-    <input type='hidden' name='ol_id' value='<?php echo $store->id ?>' />
-
-    <input type='hidden' name='ol_table' value='stores' />
+    <input type='hidden' name='ol_table' value='cards' />
 
     <div class="form-group">
-        <label>分店店名</label>
-        <input type="text" class="form-control" name='ol_name' value='<?php echo $store->name ?>' >
+        <label>綁定分店</label>
+        <select class="form-control" name='ol_belong_stores'>
+            <?php foreach($stores as $store): ?>                
+                <option value='<?php echo $store->id ?>' <?php if ($store->id === $card->stores->id) echo "selected='selected'" ?>><?php echo $store->name ?></option>
+            <?php endforeach; ?>
+        </select>        
+    </div>
+    
+    <div class="form-group">
+        <label>綁定會員</label>
+        <select class="form-control" name='ol_belong_members'>
+            <?php foreach($members as $member): ?>
+                <option value='<?php echo $member->id ?>' <?php if ($member->id === $card->members->id) echo "selected='selected'" ?>><?php echo $member->name ?></option>
+            <?php endforeach; ?>
+        </select>        
+    </div>    
+
+    <div class="form-group">
+        <label>卡片號碼</label>
+        <input type="text" class="form-control" name='ol_number' value='<?php echo $card->number ?>' >
     </div>
 
     <div class="form-group">
-        <label>負責人</label>
-        <input type="text" class="form-control" name='ol_boss' value='<?php echo $store->boss ?>'>
+        <label>產生日期</label>
+        <input type="text" class="form-control" name='ol_created_at' value='<?php echo $card->created_at ?>'>
     </div>
 
     <div class="form-group">
-        <label>電話</label>
-        <input type="text" class="form-control" name='ol_phone' value='<?php echo $store->phone ?>'>
+        <label>變更日期</label>
+        <input type="text" class="form-control" name='ol_updated_at' value='<?php echo $card->updated_at ?>'>
     </div>
 
-    <div class="form-group">
-        <label>地址</label>
-        <input type="text" class="form-control" name='ol_address' value='<?php echo $store->address ?>' >
-    </div>
-
-    <div class="form-group">
-        <label>後台帳號</label>
-        <input type="text" class="form-control" name='ol_account' value='<?php echo $store->account ?>' >
-    </div>
-
-    <div class="form-group">
-        <label>後台密碼</label>
-        <input type="password" class="form-control" name='ol_password' value='<?php echo $store->password ?>' >
-    </div>
-
-
-<!--
-    <div class="form-group">
-        <label>Password</label>
-        <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
-    </div>
--->
     <button type="submit" class="btn btn-default">確定修改</button>
 </form>

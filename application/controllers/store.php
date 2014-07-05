@@ -21,7 +21,7 @@ class Store extends CI_Controller {
     }
     
     function add_post(){
-        $this->ol->inject();
+        $this->ol->inject('stores');
         redirect('/store');        
     }
         
@@ -47,7 +47,7 @@ class Store extends CI_Controller {
     }
     
     function edit_post(){
-        $id = $this->ol->pollute();
+        $id = $this->ol->pollute('stores');
         redirect('/store/index');
     }
     

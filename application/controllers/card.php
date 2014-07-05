@@ -3,11 +3,12 @@
 class Card extends CI_Controller {
     
     protected $data = array();
-    
+
     function __construct(){
         parent::__construct();
         $this->load->library('OutlawWrapper', '', 'ol');
         $this->load->helper('url');        
+        $this->load->library('Vivi/Card/CardRepository', '', 'cr');
     }
 
     public function index(){
@@ -24,7 +25,7 @@ class Card extends CI_Controller {
     }
     
     function add_post(){
-        $this->ol->inject();
+        $this->ol->inject('cards');
         redirect('/card');        
     }
         
@@ -40,8 +41,17 @@ class Card extends CI_Controller {
 
     function edit($id){
 #        $this->data['store'] = $this->ol->take();
-        $this->data['store'] = $this->ol->take('stores', $id);
-        $this->template->build('store/edit', $this->data);        
+        $this->data['card'] = $this->ol->take('cards', $id);
+        $this->data['stores'] = $this->ol->gather('stores');
+        $this->data['members'] = $this->ol->gather('members');
+        $this->template->build('card/edit', $this->data);        
+    }
+    
+    function batch(){
+        $this->template->build('card/batch');              
+    }
+    function batch_post(){
+        $this->cr->createBatch($this->input->post('amount'), $this->input->post('prefix'));
     }
 
     function view(){
