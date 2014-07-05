@@ -22,6 +22,10 @@ It implements every feature your teachers ask you not to do.
 * The input 'ol_id' is the primary key if needed.
 * Pass everything via url parameters.
 
+## Setup
+In config file, set database name and password.
+No migration needed, no database schema needed.
+
 ## Example
 
 Let's say, you need a blogging system.
@@ -52,13 +56,41 @@ The Outlaw do all the evil things for you!
 
 Now check your database, the 'articles' table is created, and you just inserted one row into it!
 
-## Setup
-In config file, set database name and password.
-No migration needed, no database schema needed.
+## Advanced Topics
+One-to-many Relationship
+Let's say you want to assign an author for the article.
+The user has an id value of 5 in table.
+```html
+<form action='/blog/create' method='post'>
+    Table Name: Articles<input type='hidden' name='ol_table' value='articles' />
+    <input type='hidden' name='ol_belong_users' value='5'>
+    Title: <input type='text' name='ol_title' />
+    Content: <input type='text' name='ol_content' />
+    <input type='submit' value='SEND' />
+</form>
+```
+* prefix with ol_belong_
+* followed by the table name
+* set value as the id of the parent
+
+Then you can utilize the relationship as this:
+```php
+// child to parent
+// Notice it's defined by the table name. 
+// Although you think 'user' is better than 'users'.
+echo $article->users->name;
+
+// parent to children
+$user = $ol->take('users', '5');
+foreach ($user->ownArticles as $article){
+    echo $article->title;
+}
+```
 
 ## Reserved Words in html input name
 * ol_table
 * ol_id
+* ol_belong_*
 
 ## API
 * inject (create)
@@ -87,3 +119,4 @@ http://redbeanphp.com/manual3_0/quick_tour
 That's why the Outlaw doesn't need migrations or existing tables.
 
 Using $_REQUEST array in PHP directly, so you can pass variable either by GET or POST or even COOKIE.
+

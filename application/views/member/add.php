@@ -4,7 +4,7 @@
 
     <div class="form-group">
         <label>建檔店別</label>
-        <select class="form-control" name='ol_stores_id'>
+        <select class="form-control" name='ol_belong_stores'>
             <?php foreach($stores as $store): ?>
                 <option value='<?php echo $store->id ?>'><?php echo $store->name ?></option>
             <?php endforeach; ?>

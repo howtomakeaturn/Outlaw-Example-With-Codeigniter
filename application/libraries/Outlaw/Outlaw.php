@@ -30,10 +30,24 @@ class Outlaw{
         foreach($_REQUEST as $key => $value){
             if (strpos($key, 'ol_')===0){
                 $attr_name = substr($key, 3);
+                // This is used for determine the table
+                // Don't do anything here.
                 if ($attr_name === 'table'){
                     continue;
                 }
-                $instance->$attr_name = $value;
+                // This is used for one-to-many relationship.
+                // Assign the parent for the instance.
+                if (strpos($attr_name, 'belong_')===0){
+                    $parent_name = substr($attr_name, 7);                  
+                    $parent_instance = R::load($parent_name, $value);
+                    $instance->$parent_name = $parent_instance;
+                }
+                // This is just table column.
+                // So assign the value for it.
+                else{
+                    $instance->$attr_name = $value;                  
+                }
+
             }
         }
 
