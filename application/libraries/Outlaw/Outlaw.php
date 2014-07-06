@@ -88,7 +88,7 @@ class Outlaw{
             $tmp_name = $_FILES[$key]["tmp_name"];
             $token = md5_file($tmp_name);
             $name = $token . '_' . $_FILES[$key]["name"];            
-            move_uploaded_file($tmp_name, "$uploadPath$name");            
+            move_uploaded_file($tmp_name, $this->uploadPath . "$name");            
             // Save the file name so we could find it.
             $attr_name = substr($key, 3);
             $instance->$attr_name = $name;
