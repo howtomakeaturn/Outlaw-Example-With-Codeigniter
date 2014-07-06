@@ -1,29 +1,26 @@
 # Outlaw
 
-A very dangerous PHP library maybe you will need.
-
-Help you build applications in a very dirty and fast way.
+A PHP library helping build CRUD in a dirty and fast way.
 
 ## The Outlaw says:
-> I know sometimes after you implemented html and css, you hope your application is fucking finished.
-> Unfortunately, it's too dirty and dangerous to do so.
-> Don't worry. Let me do all the dirty stuff for you.
-> But listen, you may pay for this.
-> Be careful.
+> Sometimes after you implemented html and css, you hope your application is finished.
+> Unfortunately, you still need to make migrations, build models, pass parameters in controller, and etc.
+> I help solving this in a dirty and fast way.
 
-## Features
-* No migration files.
-* Build the database tables with HTML.
-* Type as less characters as possible.
-* Security isn't the first thing the Outlaw cares.
-* You Need to obey instructions the Outlaw ask you to do.
+## Goals
+* Enable developers to define the database schema in HTML.
+* No need to make migrations. The Outlaw builds the table automatically.
+* No need to pass parameters in controller. The Outlaw use $_GET, $_POST, and $_REQUEST directly.
+* No need to implement models. The Outlaw provides basic CRUD for you.
 
 ## Rules
 * Prefix every html input fields name the Outlaw needed with 'ol_'
 * You only need to pass the table name and primary key in the controller if needed, all the other parameters the outlaw will handle.
 
-## Setup
-No migration needed, no database schema needed.
+## Getting Started
+
+Let's say, you need a blogging system.
+
 In config file, set database name and password.
 ```php
 // config.php
@@ -33,13 +30,7 @@ $config['database'] = array(
     'user' => 'koala',
     'password' => 'koala'
 );
-```
 
-Let's start!
-
-## Example
-
-Let's say, you need a blogging system.
 
 ### Create
 
@@ -65,11 +56,11 @@ public function create()
     $this->ol->inject('articles');
 }    
 ```
-Now check your database, the articles table is created, and you just inserted one row into it!
+Now check your database, the 'articles' table is created, and you just inserted one row into it!
 
 ### Read
 
-Ok, we also need a place to see all the articles.
+We also need a place to see all the articles.
 Let's **gather** them first.
 ```php
 public function index(){
@@ -132,7 +123,7 @@ Then in the html:
 <input type="file" name='ol_logo'>
 ```
 
-Outlaw will rename the files, store them in the path, and save the file name in attributes.
+Outlaw will rename the files, store them in the path, and save the file name in attributes after **inejct**.
 
 For instance, we could show the above files like this:
 
@@ -163,7 +154,7 @@ $config['rules'] = array(
 ```
 It utilize in **inject** and **pollute** method.
 If fail to pass validation, they return false. 
-And you can get validation error message by getError methd.
+And you can get validation error message by getErrors methd.
 ```php
       if ($this->ol->pollute('articles', $id)){
           redirect('/demo/view/' . $id);
@@ -204,9 +195,8 @@ foreach ($user->ownArticles as $article){
 ```
 
 ### Upload Multiple Files
-Setup the config file as upload single file.
 
-Then in the html, add 'multiple' attribute and '[]' to the name:
+Add 'multiple' attribute and '[]' to the name:
 
 ```html
 <label>Photos</label>
@@ -227,17 +217,7 @@ And the usage becomes:
 * ol_belong_*
 
 ## Design Principle
-### Type as less characters as possible
-* If you type any kind of attribute name in html, then you don't need to type it again in controller, model, migration, and sql server.
-* If type it in controller is shorter, then don't type it in html:
-```php
-    $ol->inject('articles');
-```
-is much shorter than
-```html
-    <input type='hidden' name='ol_table' value='articles' />
-```
-That's why the table name and id is the only thing determined in the controller rather than in the html.
+* Type as less characters as possible.
 
 ## API
 * inject ($table_name)
