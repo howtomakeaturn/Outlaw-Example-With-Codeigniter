@@ -41,6 +41,8 @@ Let's start!
 
 Let's say, you need a blogging system.
 
+### Create
+
 First we need a place to create articles.
 We need two fields 'title' and 'content'.
 
@@ -65,6 +67,8 @@ public function create()
 ```
 Now check your database, the articles table is created, and you just inserted one row into it!
 
+### Read
+
 Ok, we also need a place to see all the articles.
 Let's **gather** them first.
 ```php
@@ -88,6 +92,9 @@ function view($id){
     $this->template->build('demo/view', $this->data);        
 }
 ```
+
+### Update
+
 To edit an article, tell the outlaw the table name and id to **pollute** it.
 ```php
 function update(){
@@ -96,6 +103,8 @@ function update(){
     redirect('/blog/view/' . $id);
 }
 ```
+
+### Delete
 
 To delete an article, tell the outlaw the table name and id so outlaw can know who to **murder**.
 ```php
@@ -106,7 +115,31 @@ function delete(){
 }
 ```
 
+### Upload File
+Set the upload path in config.php.
+```php
+$config['upload_path'] = './upload/';             
+        
+```
 
+Then in the html:
+
+```html
+<label>Person</label>
+<input type="file" name='ol_person'>
+
+<label>Logo</label>
+<input type="file" name='ol_logo'>
+```
+
+Outlaw will rename the files, store them in the path, and save the file name in attributes.
+
+For instance, we could show the above files like this:
+
+```php
+    <img src='/upload/<?php echo $article->person ?>' />    
+    <img src='/upload/<?php echo $article->logo ?>' />    
+```
 
 ## Advanced Topics
 ### One-to-many Relationship
@@ -138,33 +171,6 @@ foreach ($user->ownArticles as $article){
 }
 ```
 
-### Upload File
-Set the upload path in config.php.
-```php
-$config['upload_path'] = './upload/';             
-        
-```
-
-Then in the html:
-
-```html
-<label>Person</label>
-<input type="file" name='ol_person'>
-
-<label>Logo</label>
-<input type="file" name='ol_logo'>
-```
-
-Outlaw will rename the files, store them in the path, and save the file name in attributes.
-
-For instance, we could show the above files like this:
-
-```php
-    <img src='/upload/<?php echo $article->person ?>' />    
-    <img src='/upload/<?php echo $article->logo ?>' />    
-```
-
-
 ### Validation
 Validating with Valitron:
 
@@ -195,6 +201,26 @@ And you can get validation error message by getError methd.
       }
 
 ```
+
+### Upload Multiple Files
+Setup the config file as upload single file.
+
+Then in the html, add 'multiple' attribute and '[]' to the name:
+
+```html
+<label>Photos</label>
+<input type="file" name='ol_photos[]' multiple>
+```
+Because it's no longer one-to-one relationship, so we cannot use the same table.
+Outlaw will create a 'photos' table, which only contains 'id', 'name', and 'articles_id' as foreign key.
+
+And the usage becomes:
+```php
+<?php foreach($article->ownPhotos as $photo): ?>
+    <img src='/upload/<?php echo $photo->name ?>' />    
+<?php endforeach; ?>
+```
+
 
 ## Reserved Words in html input name
 * ol_belong_*
