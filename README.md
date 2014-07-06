@@ -142,34 +142,6 @@ For instance, we could show the above files like this:
 ```
 
 ## Advanced Topics
-### One-to-many Relationship
-Let's say you want to assign an author for the article.
-The user has an id value of '5' in 'users' table.
-```html
-<form action='/blog/create' method='post'>
-    <input type='hidden' name='ol_belong_users' value='5'>
-    Title: <input type='text' name='ol_title' />
-    Content: <input type='text' name='ol_content' />
-    <input type='submit' value='SEND' />
-</form>
-```
-* prefix with ol_belong_
-* followed by the table name
-* set value as the id of the parent
-
-Then you can utilize the relationship as this(notice the **ownArticles** attributes created by the outlaw):
-```php
-// child to parent
-// Notice it's defined by the table name. 
-// Although you think 'user' is better than 'users'.
-echo $article->users->name;
-
-// parent to children
-$user = $ol->take('users', '5');
-foreach ($user->ownArticles as $article){
-    echo $article->title;
-}
-```
 
 ### Validation
 Validating with Valitron:
@@ -200,6 +172,35 @@ And you can get validation error message by getError methd.
           exit(var_export($this->ol->getErrors()));
       }
 
+```
+
+### One-to-many Relationship
+Let's say you want to assign an author for the article.
+The user has an id value of '5' in 'users' table.
+```html
+<form action='/blog/create' method='post'>
+    <input type='hidden' name='ol_belong_users' value='5'>
+    Title: <input type='text' name='ol_title' />
+    Content: <input type='text' name='ol_content' />
+    <input type='submit' value='SEND' />
+</form>
+```
+* prefix with ol_belong_
+* followed by the table name
+* set value as the id of the parent
+
+Then you can utilize the relationship as this(notice the **ownArticles** attributes created by the outlaw):
+```php
+// child to parent
+// Notice it's defined by the table name. 
+// Although you think 'user' is better than 'users'.
+echo $article->users->name;
+
+// parent to children
+$user = $ol->take('users', '5');
+foreach ($user->ownArticles as $article){
+    echo $article->title;
+}
 ```
 
 ### Upload Multiple Files

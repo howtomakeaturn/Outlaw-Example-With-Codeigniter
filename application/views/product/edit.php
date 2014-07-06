@@ -39,6 +39,7 @@
         <input type="file" class="form-control" name='ol_photos[]' multiple>
         <?php foreach($product->ownPhotos as $p): ?>
             <img src='/upload/<?php echo $p->name ?>' width='100'/>        
+            <a class='btn btn-xs btn-danger' href='/product/kill_photo/<?php echo $p->id ?>'>Delete</a>
         <?php endforeach; ?>
     </div>
 

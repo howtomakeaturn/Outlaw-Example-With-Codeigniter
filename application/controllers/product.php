@@ -62,13 +62,17 @@ class Product extends CI_Controller {
     function edit_post(){
         $id = $_REQUEST['ol_id'];
         if ($this->ol->pollute('products', $id)){
-            redirect('/store/index');
+            redirect('/product');
         }
         else{
             exit(var_export($this->ol->getErrors()));
         }
     }
     
+    function kill_photo($id){
+        $this->ol->murder('photos', $id);
+        redirect($_SERVER['HTTP_REFERER']);
+    }
 }
 
 /* End of file welcome.php */
