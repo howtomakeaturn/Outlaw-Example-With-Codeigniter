@@ -8,6 +8,8 @@ class Outlaw{
     
     protected $validate;
     protected $errors;
+    protected $uploadPath;
+    
     function __construct(){
         $configs = array(
             'dns' => 'mysql:host=localhost;dbname=koala',
@@ -30,7 +32,8 @@ class Outlaw{
                 'required' => [ ['ol_name'], ['ol_boss'], ['ol_phone'], ['ol_address'] ]
             ]
         );
-                
+        
+        $this->uploadPath = './upload/';                
     }
 
     /*
@@ -75,6 +78,20 @@ class Outlaw{
         if(!$v->validate()) {
             $this->errors = $v->errors();
             return false;
+        }
+
+        foreach($_FILES as $key => $value){
+            if (strpos($key, 'ol_')!==0){
+                continue;
+            }
+            // Save the file in the path.
+            $tmp_name = $_FILES[$key]["tmp_name"];
+            $token = md5_file($tmp_name);
+            $name = $token . '_' . $_FILES[$key]["name"];            
+            move_uploaded_file($tmp_name, "$uploadPath$name");            
+            // Save the file name so we could find it.
+            $attr_name = substr($key, 3);
+            $instance->$attr_name = $name;
         }
 
         $id = R::store($instance);        

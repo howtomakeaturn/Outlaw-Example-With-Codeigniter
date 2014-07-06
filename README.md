@@ -87,6 +87,29 @@ foreach ($user->ownArticles as $article){
 }
 ```
 
+### Upload File
+Set the upload path.
+
+Then in the html:
+
+```html
+        <label>Person</label>
+        <input type="file" name='ol_person'>
+
+        <label>Logo</label>
+        <input type="file" name='ol_logo'>
+```
+
+Outlaw will name the files, store them in the path, and save the file name in attributes.
+
+For instance, we could show the above files:
+
+```php
+    <img src='/upload/<?php echo $article->person ?>' />    
+    <img src='/upload/<?php echo $article->logo ?>' />    
+```
+
+
 ### Validation
 Validating with Valitron:
 

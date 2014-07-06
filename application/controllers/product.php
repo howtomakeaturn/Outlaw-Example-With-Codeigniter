@@ -22,13 +22,9 @@ class Product extends CI_Controller {
     }
     
     function add_post(){
-     #   exit(var_export($_FILES));
-        $tmp_name = $_FILES["ol_pic"]["tmp_name"];
-        $name = $_FILES["ol_pic"]["name"];
-        move_uploaded_file($tmp_name, "./upload/$name");
-        /*$this->ol->inject('products');
+        $this->ol->inject('products');
         redirect('/product');        
-        */
+        
     }
         
     function inject(){

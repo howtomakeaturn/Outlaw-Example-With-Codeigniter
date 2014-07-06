@@ -23,9 +23,15 @@
     </div>
 
     <div class="form-group">
-        <label>Pic</label>
-        <input type="file" class="form-control" name='ol_pic'>
+        <label>Person</label>
+        <input type="file" class="form-control" name='ol_person'>
     </div>
+
+    <div class="form-group">
+        <label>Logo</label>
+        <input type="file" class="form-control" name='ol_logo'>
+    </div>
+
 
     <button type="submit" class="btn btn-default">確定新增</button>
 </form>
