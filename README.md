@@ -17,6 +17,11 @@ A PHP library helping implement CRUD in a dirty and fast way.
 * Prefix every html input fields name the Outlaw needed with 'ol_'
 * You only need to pass the table name and primary key in the controller if needed, all the other parameters the outlaw will handle.
 
+## Warning
+This library should only be used for insensitive applications or prototyping new ideas.
+It's very fast but really dirty.
+Use it carefully.
+
 ## Getting Started
 
 Let's say, you need a blogging system.
