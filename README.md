@@ -1,6 +1,6 @@
 # Outlaw
 
-A PHP library helping build CRUD in a dirty and fast way.
+A PHP library helping implement CRUD in a dirty and fast way.
 
 ## The Outlaw says:
 > Sometimes after you implemented html and css, you hope your application is finished.
@@ -30,7 +30,7 @@ $config['database'] = array(
     'user' => 'koala',
     'password' => 'koala'
 );
-
+```
 
 ### Create
 
