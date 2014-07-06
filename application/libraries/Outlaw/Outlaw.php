@@ -71,7 +71,7 @@ class Outlaw{
     function inject($table_name=null){
         if (!$table_name) throw new OutlawNoTableName();
 
-        $instance = $book = R::dispense($table_name);
+        $instance = R::dispense($table_name);
 
         foreach($_REQUEST as $key => $value){
             if (strpos($key, 'ol_')===0){
@@ -102,38 +102,8 @@ class Outlaw{
             return false;
         }
         
-        foreach($_FILES as $key => $value){
-            if (strpos($key, 'ol_')!==0){
-                continue;
-            }
-            // If it's one-to-one relationship,
-            // store it in the same table.
-            if (!is_array($value['name'])){
-                // Save the file in the path.
-                $tmp_name = $_FILES[$key]["tmp_name"];
-                #$token = md5_file($tmp_name);
-                $name = self::sanitize($_FILES[$key]["name"]);            
-                move_uploaded_file($tmp_name, $this->uploadPath . "$name");            
-                // Save the file name so we could find it.
-                $attr_name = substr($key, 3);
-                $instance->$attr_name = $name;
-            }
-            else{
-                $files = self::reArrayFiles($_FILES[$key]);
-                foreach($files as $file){
-                    // Save the file in the path.
-                    $tmp_name = $file["tmp_name"];
-                    # $token = md5_file($tmp_name);
-                    $name = self::sanitize($file['name']);
-                    move_uploaded_file($tmp_name, $this->uploadPath . "$name");            
-                    $attr_name = substr($key, 3);
-                    $file_instance = R::dispense($attr_name);
-                    $file_instance->$table_name = $instance;
-                    $file_instance->name = $name;
-                    R::store($file_instance);
-                }
-            }
-        }
+        // Attach files to the instance if needed.
+        $this->attachFilesTo($instance);
 
         $id = R::store($instance);        
         return $id;
@@ -160,6 +130,51 @@ class Outlaw{
             $this->errors = $v->errors();
             return false;
         }
+    }
+    
+    function attachFilesTo(&$instance){
+        foreach($_FILES as $key => $value){
+            if (strpos($key, 'ol_')!==0){
+                continue;
+            }
+            // If it's one-to-one relationship,
+            // store it in the same table.
+            if (!is_array($value['name'])){
+                // If upload failed, skip it.
+                if ($_FILES[$key]["error"] !== 0){
+                    continue;
+                }
+                // Save the file in the path.
+                $tmp_name = $_FILES[$key]["tmp_name"];
+                #$token = md5_file($tmp_name);
+                $name = self::sanitize($_FILES[$key]["name"]);            
+                move_uploaded_file($tmp_name, $this->uploadPath . "$name");            
+                // Save the file name so we could find it.
+                $attr_name = substr($key, 3);
+                $instance->$attr_name = $name;
+            }
+            else{
+                $files = self::reArrayFiles($_FILES[$key]);
+                foreach($files as $file){
+                    // If upload failed, skip it.
+                    if ($file["error"] !== 0){
+                        continue;
+                    }
+                  
+                    // Save the file in the path.
+                    $tmp_name = $file["tmp_name"];
+                    # $token = md5_file($tmp_name);
+                    $name = self::sanitize($file['name']);
+                    move_uploaded_file($tmp_name, $this->uploadPath . "$name");            
+                    $attr_name = substr($key, 3);
+                    $file_instance = R::dispense($attr_name);
+                    $table_name = $instance->getMeta('type');
+                    $file_instance->$table_name = $instance;
+                    $file_instance->name = $name;
+                    R::store($file_instance);
+                }
+            }
+        }      
     }
     
     function getErrors(){
@@ -199,6 +214,9 @@ class Outlaw{
         if (!$this->validate($table_name)){
             return false;
         }
+
+        // Attach files to the instance if needed.
+        $this->attachFilesTo($instance);
 
         $id = R::store($instance);                
         return $id;

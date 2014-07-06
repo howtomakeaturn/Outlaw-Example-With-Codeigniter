@@ -18,7 +18,7 @@ A PHP library helping implement CRUD in a dirty and fast way.
 * You only need to pass the table name and primary key in the controller if needed, all the other parameters the outlaw will handle.
 
 ## Warning
-This library should only be used for insensitive applications or prototyping new ideas.
+This library should **only** be used for **insensitive applications** or **prototyping new ideas**.
 It's very fast but really dirty.
 Use it carefully.
 
@@ -267,3 +267,5 @@ https://github.com/vlucas/valitron
 * Many-to-many relationship
 
 * More security maybe ...
+
+* Improve upload file name
