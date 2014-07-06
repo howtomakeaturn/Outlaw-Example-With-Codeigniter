@@ -1,39 +1,45 @@
-<form role="form" action='/card/add_post' method='post'>
-
-    <input type='hidden' name='ol_table' value='cards' />
+<form role="form" action='/product/edit_post' method='post' enctype="multipart/form-data">
 
     <div class="form-group">
-        <label>綁定分店</label>
-        <select class="form-control" name='ol_belong_stores'>
-            <?php foreach($stores as $store): ?>                
-                <option value='<?php echo $store->id ?>' <?php if ($store->id === $card->stores->id) echo "selected='selected'" ?>><?php echo $store->name ?></option>
-            <?php endforeach; ?>
-        </select>        
-    </div>
-    
-    <div class="form-group">
-        <label>綁定會員</label>
-        <select class="form-control" name='ol_belong_members'>
-            <?php foreach($members as $member): ?>
-                <option value='<?php echo $member->id ?>' <?php if ($member->id === $card->members->id) echo "selected='selected'" ?>><?php echo $member->name ?></option>
-            <?php endforeach; ?>
-        </select>        
-    </div>    
-
-    <div class="form-group">
-        <label>卡片號碼</label>
-        <input type="text" class="form-control" name='ol_number' value='<?php echo $card->number ?>' >
+        <label>Year</label>
+        <input type="text" class="form-control" name='ol_year' value='<?php echo $product->year ?>' >
     </div>
 
     <div class="form-group">
-        <label>產生日期</label>
-        <input type="text" class="form-control" name='ol_created_at' value='<?php echo $card->created_at ?>'>
+        <label>Month</label>
+        <input type="text" class="form-control" name='ol_month' value='<?php echo $product->month ?>'>
     </div>
 
     <div class="form-group">
-        <label>變更日期</label>
-        <input type="text" class="form-control" name='ol_updated_at' value='<?php echo $card->updated_at ?>'>
+        <label>Title</label>
+        <input type="text" class="form-control" name='ol_title' value='<?php echo $product->title ?>'>
     </div>
+
+    <div class="form-group">
+        <label>Content</label>
+        <input type="text" class="form-control" name='ol_content' value='<?php echo $product->content ?>'>
+    </div>
+
+    <div class="form-group">
+        <label>Person</label>
+        <input type="file" class="form-control" name='ol_person'>
+        <img src='/upload/<?php echo $product->person ?>' width='100'/>
+    </div>
+
+    <div class="form-group">
+        <label>Logo</label>
+        <input type="file" class="form-control" name='ol_logo'>
+        <img src='/upload/<?php echo $product->logo ?>' width='100'/>
+    </div>
+
+    <div class="form-group">
+        <label>Photos</label>
+        <input type="file" class="form-control" name='ol_photos[]' multiple>
+        <?php foreach($product->ownPhotos as $p): ?>
+            <img src='/upload/<?php echo $p->name ?>' width='100'/>        
+        <?php endforeach; ?>
+    </div>
+
 
     <button type="submit" class="btn btn-default">確定修改</button>
 </form>

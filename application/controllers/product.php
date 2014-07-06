@@ -41,11 +41,8 @@ class Product extends CI_Controller {
     }
 
     function edit($id){
-#        $this->data['store'] = $this->ol->take();
-        $this->data['card'] = $this->ol->take('cards', $id);
-        $this->data['stores'] = $this->ol->gather('stores');
-        $this->data['members'] = $this->ol->gather('members');
-        $this->template->build('card/edit', $this->data);        
+        $this->data['product'] = $this->ol->take('products', $id);
+        $this->template->build('product/edit', $this->data);        
     }
     
     function batch(){

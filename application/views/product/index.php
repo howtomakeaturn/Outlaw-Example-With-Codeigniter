@@ -25,6 +25,7 @@
                 <img src='/upload/<?php echo $pho->name ?>' width=50 />
             <?php endforeach; ?>
         </td>
+        <td><a class='btn btn-warning' href='/product/edit/<?php echo $p->id ?>' rel='nofollow'>Edit</a></td>
         <td><a class='btn btn-danger' href='/product/delete/<?php echo $p->id ?>' rel='nofollow'>Delete</a></td>
     </tr>    
     <?php endforeach; ?>
