@@ -6,7 +6,7 @@ Help you build applications in a very dirty and fast way.
 
 ## The Outlaw says:
 > I know sometimes after you implemented html and css, you hope your application is fucking finished.
-> Unfortunately, it's impossible. It's too dirty and dangerous to do so.
+> Unfortunately, it's too dirty and dangerous to do so.
 > Don't worry. Let me do all the dirty stuff for you.
 > But listen, you may pay for this.
 > Be careful.
@@ -52,18 +52,21 @@ We need two fields 'title' and 'content'.
 </form>
 ```
 
-And then tell the outlaw where to inject the data in the blog controller.
+And then tell the outlaw where to **inject** the data in the blog controller.
 ```php
+function __construct(){
+    $this->ol = new Outlaw();
+}
+
 public function create()
 {
-    $ol = new Outlaw();
-    $ol->inject('articles');
+    $this->ol->inject('articles');
 }    
 ```
-Now check your database, the 'articles' table is created, and you just inserted one row into it!
+Now check your database, the articles table is created, and you just inserted one row into it!
 
 Ok, we also need a place to see all the articles.
-Let's gather them first.
+Let's **gather** them first.
 ```php
 public function index(){
     $this->data['articles'] = $this->ol->gather('articles');
@@ -72,20 +75,20 @@ public function index(){
 ```
 
 So you can use them.
-```html
+```php
 <?php foreach($articles as $a): ?>
     <?php echo $a->title ?>
     <?php echo $a->content ?>
 <?php endforeach; ?>
 ```
-To view a single article, tell the outlaw the table name and id.
+To view a single article, tell the outlaw the table name and id to **take** it.
 ```php
 function view($id){
     $this->data['article'] = $this->ol->take('articles', $id);
     $this->template->build('demo/view', $this->data);        
 }
 ```
-To edit an article, tell the outlaw the table name and id.
+To edit an article, tell the outlaw the table name and id to **pollute** it.
 ```php
 function update(){
     $id = $_POST['ol_id'];
@@ -94,7 +97,7 @@ function update(){
 }
 ```
 
-To delete an article, tell the outlaw the table name and id so outlaw can know who to kill.
+To delete an article, tell the outlaw the table name and id so outlaw can know who to **murder**.
 ```php
 function delete(){
     $id = $_REQUEST['id'];
@@ -108,10 +111,9 @@ function delete(){
 ## Advanced Topics
 ### One-to-many Relationship
 Let's say you want to assign an author for the article.
-The user has an id value of 5 in table.
+The user has an id value of '5' in 'users' table.
 ```html
 <form action='/blog/create' method='post'>
-    Table Name: Articles<input type='hidden' name='ol_table' value='articles' />
     <input type='hidden' name='ol_belong_users' value='5'>
     Title: <input type='text' name='ol_title' />
     Content: <input type='text' name='ol_content' />
@@ -122,7 +124,7 @@ The user has an id value of 5 in table.
 * followed by the table name
 * set value as the id of the parent
 
-Then you can utilize the relationship as this:
+Then you can utilize the relationship as this(notice the **ownArticles** attributes created by the outlaw):
 ```php
 // child to parent
 // Notice it's defined by the table name. 
@@ -137,21 +139,25 @@ foreach ($user->ownArticles as $article){
 ```
 
 ### Upload File
-Set the upload path.
+Set the upload path in config.php.
+```php
+$config['upload_path'] = './upload/';             
+        
+```
 
 Then in the html:
 
 ```html
-        <label>Person</label>
-        <input type="file" name='ol_person'>
+<label>Person</label>
+<input type="file" name='ol_person'>
 
-        <label>Logo</label>
-        <input type="file" name='ol_logo'>
+<label>Logo</label>
+<input type="file" name='ol_logo'>
 ```
 
-Outlaw will name the files, store them in the path, and save the file name in attributes.
+Outlaw will rename the files, store them in the path, and save the file name in attributes.
 
-For instance, we could show the above files:
+For instance, we could show the above files like this:
 
 ```php
     <img src='/upload/<?php echo $article->person ?>' />    
@@ -165,22 +171,24 @@ Validating with Valitron:
 https://github.com/vlucas/valitron
 
 ```php
-    // Set all the fields and table in config file.
-    $this->validate = array(
-        'articles' => array(
-            // notice the attribute is wrapped in an array even it's just a string
-            'required' => [['ol_title'], ['ol_content']],
-            'lengthMin' => [['ol_title', 5], ['ol_content', 10]]
-        )
-    );
-
+// Set all the fields and table in config file.
+$config['rules'] = array(
+    'articles' => array(
+        // notice the attribute is wrapped in an array even it's just a string
+        'required' => [['ol_title'], ['ol_content']],
+        'lengthMin' => [['ol_title', 5], ['ol_content', 10]]
+    ),
+    'stores' => [
+        'required' => [ ['ol_name'], ['ol_boss'], ['ol_phone'], ['ol_address'] ]
+    ]
+);
 ```
-It utilize in inject and pollute method.
+It utilize in **inject** and **pollute** method.
 If fail to pass validation, they return false. 
 And you can get validation error message by getError methd.
 ```php
-      if ($id = $this->ol->pollute('articles')){
-          redirect('/demo/view?ol_id=' . $id);
+      if ($this->ol->pollute('articles', $id)){
+          redirect('/demo/view/' . $id);
       }
       else{
           exit(var_export($this->ol->getErrors()));
