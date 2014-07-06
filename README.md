@@ -260,6 +260,10 @@ That's why the table name and id is the only thing determined in the controller 
 
 > Get all the rows.
 
+* getErrors()
+
+> Get error messages about validation failure.
+
 ## Technical Detail
 * Manipulate the database with Redbeanphp 3.5
 
