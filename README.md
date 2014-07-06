@@ -246,3 +246,8 @@ https://github.com/vlucas/valitron
 
 * Using $_REQUEST array in PHP directly, so you can pass variable either by GET or POST or even COOKIE.
 
+## Todo
+
+* Many-to-many relationship
+
+* More security maybe ...
