@@ -22,10 +22,12 @@ class Product extends CI_Controller {
     }
     
     function add_post(){
-      #  exit(var_export($_FILES));
-        $this->ol->inject('products');
-        redirect('/product');        
-        
+        if ($this->ol->inject('products')){
+            redirect('/product');        
+        }
+        else{
+            exit(var_export($this->ol->getErrors()));
+        }        
     }
     
 #    function add_
@@ -58,8 +60,13 @@ class Product extends CI_Controller {
     }
     
     function edit_post(){
-        $id = $this->ol->pollute();
-        redirect('/store/index');
+        $id = $_REQUEST['ol_id'];
+        if ($this->ol->pollute('products', $id)){
+            redirect('/store/index');
+        }
+        else{
+            exit(var_export($this->ol->getErrors()));
+        }
     }
     
 }

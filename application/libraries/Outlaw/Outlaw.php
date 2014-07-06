@@ -71,9 +71,6 @@ class Outlaw{
     function inject($table_name=null){
         if (!$table_name) throw new OutlawNoTableName();
 
-        # TODO:
-        # throw new NoModelNameException('');
-
         $instance = $book = R::dispense($table_name);
 
         foreach($_REQUEST as $key => $value){
@@ -99,15 +96,10 @@ class Outlaw{
 
             }
         }
-
-        if (array_key_exists($table_name, $this->validate)){
-            $v = new Valitron\Validator($_REQUEST);
-            $rules = $this->validate[$table_name];
-            $v->rules($rules);
-            if(!$v->validate()) {
-                $this->errors = $v->errors();
-                return false;
-            }
+        
+        // Does $_REQUEST pass the rules?
+        if (!$this->validate($table_name)){
+            return false;
         }
         
         foreach($_FILES as $key => $value){
@@ -147,6 +139,29 @@ class Outlaw{
         return $id;
     }
     
+    /*
+     * Validate the $_REQUEST.
+     * Store errors in $this->errors for further using.
+     * Parameters:
+     *     $table_name - validate with which table name rules defined in config.php.
+     * @return Boolean - Pass or not
+     */    
+    function validate($table_name){
+        if (!array_key_exists($table_name, $this->validate)){
+            return true;
+        }
+        $v = new Valitron\Validator($_REQUEST);
+        $rules = $this->validate[$table_name];
+        $v->rules($rules);
+        if($v->validate()) {
+            return true;
+        }
+        else{
+            $this->errors = $v->errors();
+            return false;
+        }
+    }
+    
     function getErrors(){
         return $this->errors;
     }
@@ -163,9 +178,8 @@ class Outlaw{
         return $instance;
     }
 
-    function pollute($table_name=null){
+    function pollute($table_name=null, $id){
         if (!$table_name) throw new OutlawNoTableName();
-        $id = $_REQUEST['ol_id'];
         $instance = R::load($table_name, $id);
 
         foreach($_REQUEST as $key => $value){
@@ -181,11 +195,8 @@ class Outlaw{
             }
         }
 
-        $v = new Valitron\Validator($_REQUEST);
-        $rules = $this->validate[$table_name];
-        $v->rules($rules);
-        if(!$v->validate()) {
-            $this->errors = $v->errors();
+        // Does $_REQUEST pass the rules?
+        if (!$this->validate($table_name)){
             return false;
         }
 

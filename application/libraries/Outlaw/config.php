@@ -19,7 +19,13 @@ $config['rules'] = array(
     ),
     'stores' => [
         'required' => [ ['ol_name'], ['ol_boss'], ['ol_phone'], ['ol_address'] ]
-    ]
+    ],
+    'products' => array(
+        // notice the attribute is wrapped in an array even it's just a string
+        'required' => [['ol_title'], ['ol_content']],
+        'lengthMin' => [['ol_title', 5], ['ol_content', 10]]
+    ),
+    
 );
 
 /*

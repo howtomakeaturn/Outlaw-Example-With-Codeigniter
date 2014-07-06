@@ -1,5 +1,7 @@
 <form role="form" action='/product/edit_post' method='post' enctype="multipart/form-data">
 
+    <input type="hidden" class="form-control" name='ol_id' value='<?php echo $product->id ?>' >
+
     <div class="form-group">
         <label>Year</label>
         <input type="text" class="form-control" name='ol_year' value='<?php echo $product->year ?>' >
