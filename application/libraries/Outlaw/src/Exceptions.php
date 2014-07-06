@@ -3,6 +3,7 @@
 class OutlawError extends Exception{}
 
 class OutlawNoTableName extends OutlawError {}
+class OutlawNoId extends OutlawError {}
 
 
 

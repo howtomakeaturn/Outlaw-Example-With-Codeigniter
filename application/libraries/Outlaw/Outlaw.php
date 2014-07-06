@@ -76,11 +76,6 @@ class Outlaw{
         foreach($_REQUEST as $key => $value){
             if (strpos($key, 'ol_')===0){
                 $attr_name = substr($key, 3);
-                // This is used for determine the table
-                // Don't do anything here.
-                if ($attr_name === 'table'){
-                    continue;
-                }
                 // This is used for one-to-many relationship.
                 // Assign the parent for the instance.
                 if (strpos($attr_name, 'belong_')===0){
@@ -183,29 +178,28 @@ class Outlaw{
     
     // A very dangerous method which removes data from database.
     function murder($table_name, $id){
+        if (!$table_name) throw new OutlawNoTableName();
+        if (!$id) throw new OutlawNoId();
         $instance = R::load($table_name, $id);
         R::trash( $instance );        
     }
     
     function take($table_name=null, $id=null){
         if (!$table_name) throw new OutlawNoTableName();
+        if (!$id) throw new OutlawNoId();
         $instance = R::load($table_name, $id);
         return $instance;
     }
 
     function pollute($table_name=null, $id){
         if (!$table_name) throw new OutlawNoTableName();
+        if (!$id) throw new OutlawNoId();
+
         $instance = R::load($table_name, $id);
 
         foreach($_REQUEST as $key => $value){
             if (strpos($key, 'ol_')===0){
                 $attr_name = substr($key, 3);
-                if ($attr_name === 'table'){
-                    continue;
-                }
-                if ($attr_name === 'id'){
-                    continue;
-                }
                 $instance->$attr_name = $value;
             }
         }
