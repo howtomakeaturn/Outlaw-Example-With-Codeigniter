@@ -1,60 +1,109 @@
 # Outlaw
 
 A very dangerous PHP library maybe you will need.
-It implements every feature your teachers ask you not to do.
+
+Help you build applications in a very dirty and fast way.
 
 ## The Outlaw says:
-> I know sometimes after you implement html and css, you hope your application is fucking finished.
+> I know sometimes after you implemented html and css, you hope your application is fucking finished.
 > Unfortunately, it's impossible. It's too dirty and dangerous to do so.
 > Don't worry. Let me do all the dirty stuff for you.
 > But listen, you may pay for this.
 > Be careful.
 
 ## Features
-* Help you build tables in a very dirty but really fast way.
-* Guess the table name and fields from HTML.
+* No migration files.
+* Build the database tables with HTML.
+* Type as less characters as possible.
 * Security isn't the first thing the Outlaw cares.
-* You Need to obey the instructions Outlaw ask you to do.
+* You Need to obey instructions the Outlaw ask you to do.
 
 ## Rules
-* Prefix every html input fields name with 'ol_'
-* The input 'ol_table' determines which table to manipulate.
-* The input 'ol_id' is the primary key if needed.
-* Pass everything via url parameters if possible.
+* Prefix every html input fields name the Outlaw needed with 'ol_'
+* You only need to pass the table name and primary key in the controller if needed, all the other parameters the outlaw will handle.
 
 ## Setup
-In config file, set database name and password.
 No migration needed, no database schema needed.
+In config file, set database name and password.
+```php
+// config.php
+
+$config['database'] = array(
+    'dns' => 'mysql:host=localhost;dbname=koala',
+    'user' => 'koala',
+    'password' => 'koala'
+);
+```
+
+Let's start!
 
 ## Example
 
 Let's say, you need a blogging system.
 
-view
+First we need a place to create articles.
+We need two fields 'title' and 'content'.
+
 ```html
 <form action='/blog/create' method='post'>
-    Table Name: Articles<input type='hidden' name='ol_table' value='articles' />
     Title: <input type='text' name='ol_title' />
     Content: <input type='text' name='ol_content' />
     <input type='submit' value='SEND' />
 </form>
 ```
-* we want to create a 'articles' table
-* We need two fields 'title' and 'content'
 
-controller
+And then tell the outlaw where to inject the data in the blog controller.
 ```php
 public function create()
 {
     $ol = new Outlaw();
-    $ol->inject();
+    $ol->inject('articles');
 }    
 ```
-You don't need to pass any arguments in controller.
-You don't need to implement any models for database.
-The Outlaw do all the evil things for you!
-
 Now check your database, the 'articles' table is created, and you just inserted one row into it!
+
+Ok, we also need a place to see all the articles.
+Let's gather them first.
+```php
+public function index(){
+    $this->data['articles'] = $this->ol->gather('articles');
+    $this->template->build('product/index', $this->data);
+}
+```
+
+So you can use them.
+```html
+<?php foreach($articles as $a): ?>
+    <?php echo $a->title ?>
+    <?php echo $a->content ?>
+<?php endforeach; ?>
+```
+To view a single article, tell the outlaw the table name and id.
+```php
+function view($id){
+    $this->data['article'] = $this->ol->take('articles', $id);
+    $this->template->build('demo/view', $this->data);        
+}
+```
+To edit an article, tell the outlaw the table name and id.
+```php
+function update(){
+    $id = $_POST['ol_id'];
+    $this->ol->pollute('articles', $id))
+    redirect('/blog/view/' . $id);
+}
+```
+
+To delete an article, tell the outlaw the table name and id so outlaw can know who to kill.
+```php
+function delete(){
+    $id = $_REQUEST['id'];
+    $this->ol->murder('articles', $id);
+    redirect('/blog');
+}
+```
+
+
 
 ## Advanced Topics
 ### One-to-many Relationship
@@ -140,7 +189,6 @@ And you can get validation error message by getError methd.
 ```
 
 ## Reserved Words in html input name
-* ol_id
 * ol_belong_*
 
 ## Design Principle
@@ -154,27 +202,28 @@ is much shorter than
 ```html
     <input type='hidden' name='ol_table' value='articles' />
 ```
+That's why the table name and id is the only thing determined in the controller rather than in the html.
 
 ## API
-* inject (create)
+* inject ($table_name)
 
-> expects $_REQUEST['ol_table'] and other parameters prefixed with 'ol_'
+> Insert other $_REQUEST parameters prefixed with 'ol_' into $table_name.
 
-* take (read)
+* take ($table_name, $id)
 
-> expects $_REQUEST['ol_table'] and $_REQUEST['ol_id']
+> Fetch one single row.
 
-* pollute (update)
+* pollute ($table_name, $id)
 
-> expects $_REQUEST['ol_table'], $_REQUEST['ol_id'], and other parameters prefixed with 'ol_'
+> Update one single row.
 
-* murder (delete)
+* murder ($table_name, $id)
 
-> expects $_REQUEST['ol_table'] and $_REQUEST['ol_id']
+> Delete one row.
 
-* gather (getAll)
+* gather ($table_name)
 
-> expects $_REQUEST['ol_table']
+> Get all the rows.
 
 ## Technical Detail
 * Manipulate the database with Redbeanphp 3.5

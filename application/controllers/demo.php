@@ -31,24 +31,26 @@ class Demo extends CI_Controller {
         }
     }
     
-    function delete(){
-        $this->ol->murder();
+    function delete($id){
+        $this->ol->murder('articles', $id);
         redirect('/demo');
     }
 
     function edit(){
-        $this->data['article'] = $this->ol->take('articles');
+        $id = $_REQUEST['ol_id'];
+        $this->data['article'] = $this->ol->take('articles', $id);
         $this->template->build('demo/edit', $this->data);        
     }
 
-    function view(){
-        $this->data['article'] = $this->ol->take('articles');
+    function view($id){
+        $this->data['article'] = $this->ol->take('articles', $id);
         $this->template->build('demo/view', $this->data);        
     }
     
     function update(){
-        if ($id = $this->ol->pollute('articles')){
-            redirect('/demo/view?ol_table=articles&ol_id=' . $id);
+        $id = $_POST['ol_id'];
+        if ($this->ol->pollute('articles', $id)){
+            redirect('/demo/view/' . $id);
         }
         else{
             exit(var_export($this->ol->getErrors()));

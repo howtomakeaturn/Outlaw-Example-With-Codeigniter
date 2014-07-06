@@ -11,29 +11,17 @@ class Outlaw{
     protected $uploadPath;
     
     function __construct(){
-        $configs = array(
-            'dns' => 'mysql:host=localhost;dbname=koala',
-            'db_user' => 'koala',
-            'db_password' => 'koala'
-        );
+      
+        require_once('config.php');
 
-        R::setup($configs['dns'], $configs['db_user'], $configs['db_password']);    
+        R::setup($config['database']['dns'], $config['database']['user'], $config['database']['password']);    
         
         V::langDir(__DIR__.'/src/Valitron/lang'); // always set langDir before lang.
-        V::lang('en');
+        V::lang($config['lang']);
         
-        $this->validate = array(
-            'articles' => array(
-                // notice the attribute is wrapped in an array even it's just a string
-                'required' => [['ol_title'], ['ol_content']],
-                'lengthMin' => [['ol_title', 5], ['ol_content', 10]]
-            ),
-            'stores' => [
-                'required' => [ ['ol_name'], ['ol_boss'], ['ol_phone'], ['ol_address'] ]
-            ]
-        );
+        $this->validate = $config['rules'];
         
-        $this->uploadPath = './upload/';                
+        $this->uploadPath = $config['upload_path'];                
     }
 
     /*
@@ -103,17 +91,13 @@ class Outlaw{
     }
     
     // A very dangerous method which removes data from database.
-    function murder(){
-        $model_name = $_REQUEST['ol_table'];
-        $id = $_REQUEST['ol_id'];
-        $book = R::load('book', $id);
-        $instance = R::load($model_name, $id);
+    function murder($table_name, $id){
+        $instance = R::load($table_name, $id);
         R::trash( $instance );        
     }
     
     function take($table_name=null, $id=null){
         if (!$table_name) throw new OutlawNoTableName();
-        $id = ($id) ? $id : $this->guessId();
         $instance = R::load($table_name, $id);
         return $instance;
     }
@@ -158,9 +142,5 @@ class Outlaw{
         if (!$table_name) throw new OutlawNoTableName();
         return R::findAll($table_name);
     }
-    
-    function guessId(){
-        return $_REQUEST['ol_id'];
-    }    
     
 }
