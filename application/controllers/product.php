@@ -22,19 +22,22 @@ class Product extends CI_Controller {
     }
     
     function add_post(){
+      #  exit(var_export($_FILES));
         $this->ol->inject('products');
         redirect('/product');        
         
     }
+    
+#    function add_
         
     function inject(){
         $this->ol->inject();
         redirect('/demo');
     }
     
-    function delete(){
-        $this->ol->murder();
-        redirect('/demo');
+    function delete($id){
+        $this->ol->murder('products', $id);
+        redirect('/product');
     }
 
     function edit($id){

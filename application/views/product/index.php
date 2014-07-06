@@ -8,6 +8,8 @@
         <th>Content</th>
         <th>File</th>
         <th>Logo = =</th>
+        <th>Photos</th>
+        <th>Action</th>
     </tr>
     <?php foreach($products as $p): ?>
     <tr>
@@ -18,6 +20,12 @@
         <td><?php echo $p->content ?></td>    
         <td><img src='/upload/<?php echo $p->person ?>' width=200 /></td>    
         <td><img src='/upload/<?php echo $p->logo ?>' width=50 /></td>    
+        <td>
+            <?php foreach($p->ownPhotos as $pho): ?>
+                <img src='/upload/<?php echo $pho->name ?>' width=50 />
+            <?php endforeach; ?>
+        </td>
+        <td><a class='btn btn-danger' href='/product/delete/<?php echo $p->id ?>' rel='nofollow'>Delete</a></td>
     </tr>    
     <?php endforeach; ?>
 

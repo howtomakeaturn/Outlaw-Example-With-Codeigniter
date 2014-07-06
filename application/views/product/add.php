@@ -32,6 +32,11 @@
         <input type="file" class="form-control" name='ol_logo'>
     </div>
 
+    <div class="form-group">
+        <label>Photos</label>
+        <input type="file" class="form-control" name='ol_photos[]' multiple>
+    </div>
+
 
     <button type="submit" class="btn btn-default">確定新增</button>
 </form>
