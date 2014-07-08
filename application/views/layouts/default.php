@@ -39,7 +39,7 @@
 	</head>
 	<body>
     <div id="background">
-        <img src="/assets/img/guitar.jpg" class="stretch" alt="" />
+        <img src="/assets/img/guitar2.jpg" class="stretch" alt="" />
     </div>    
     
     <div class='container'>
@@ -50,8 +50,19 @@
         
         
         </div>    
+        <div class='row'>
+
+            <footer>
+              <br/>
+              Open Guitar &#169; 2014 Photo via Tara Whitsitt, CC lisenced.
+              <br/>
+              <br/>
+            </footer>
+        
+        </div>
     </div>
 
+    
 
 	</body>
 </html>
