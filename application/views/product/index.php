@@ -22,7 +22,7 @@
         <td><img src='/upload/<?php echo $p->logo ?>' width=50 /></td>    
         <td>
             <?php foreach($p->ownPhotos as $pho): ?>
-                <img src='/upload/<?php echo $pho->name ?>' width=50 />
+                <a href='/upload/<?php echo $pho->name ?>''><img src='/upload/<?php echo $pho->name ?>' width=50 /></a>
             <?php endforeach; ?>
         </td>
         <td><a class='btn btn-warning' href='/product/edit/<?php echo $p->id ?>' rel='nofollow'>Edit</a></td>

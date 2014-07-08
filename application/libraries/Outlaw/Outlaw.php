@@ -36,6 +36,10 @@ class Outlaw{
      *     $force_lowercase - Force the string to lowercase?
      *     $anal - If set to *true*, will remove all non-alphanumeric characters.
      */
+    static function sanitize($file){
+        return preg_replace("([^\w\s\d\-_~,;:\[\]\(\].]|[\.]{2,})", '', $file);
+    }
+     /*
     static function sanitize($string, $force_lowercase = true, $anal = false) {
         $strip = array("~", "`", "!", "@", "#", "$", "%", "^", "&", "*", "(", ")", "_", "=", "+", "[", "{", "]",
                        "}", "\\", "|", ";", ":", "\"", "'", "&#8216;", "&#8217;", "&#8220;", "&#8221;", "&#8211;", "&#8212;",
@@ -49,7 +53,7 @@ class Outlaw{
                 strtolower($clean) :
             $clean;
     }
-
+    */
     function __construct(){
       
         require_once('config.php');

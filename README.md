@@ -268,6 +268,4 @@ https://github.com/vlucas/valitron
 
 * More security maybe ...
 
-* Improve upload file name
-
 * Remove the files if it's overwritten
