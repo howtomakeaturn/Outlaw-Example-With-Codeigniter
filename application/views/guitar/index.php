@@ -11,7 +11,7 @@
 <div class='col-md-4'>
 <a href='/guitar/add_singer' class='btn btn-default'>新增歌手</a>
 <?php foreach($singers as $singer): ?>
-    <h3><a href='/guitar/view/<?php echo $singer->id ?>'><?php echo $singer->name ?></a></h3>
+    <h3><a href='/guitar/singer/<?php echo $singer->id ?>'><?php echo $singer->name ?></a></h3>
     <img src='/upload/<?php echo $singer->image ?>'>
     <hr />
 <?php endforeach; ?>

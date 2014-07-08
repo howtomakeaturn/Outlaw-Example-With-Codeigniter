@@ -1,4 +1,14 @@
 <form role="form" action='/guitar/add_post' method='post'>
+  
+    <div class="form-group">
+        <label>歌手</label>
+        <select class='form-control' name='ol_belong_singers'>
+            <?php foreach($singers as $singer): ?>
+                <option value='<?php echo $singer->id ?>'><?php echo $singer->name ?></option>
+            <?php endforeach; ?>
+        </select>
+    </div>
+    
 
     <div class="form-group">
         <label>歌名</label>

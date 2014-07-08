@@ -20,7 +20,7 @@ class Guitar extends CI_Controller {
 
     public function add()
     {
-        
+        $this->data['singers'] = $this->ol->gather('singers');
         $this->template->build('guitar/add', $this->data);
     }
     
@@ -75,6 +75,10 @@ class Guitar extends CI_Controller {
         $this->template->build('guitar/view', $this->data);        
     }
     
+    function singer($id){
+        $this->data['singer'] = $song = $this->ol->take('singers', $id);
+        $this->template->build('guitar/singer', $this->data);              
+    }
     
     
     function batch(){

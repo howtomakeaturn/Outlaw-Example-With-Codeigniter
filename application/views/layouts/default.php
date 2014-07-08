@@ -34,6 +34,16 @@
         .container{
           //  background-color: #9c27b0;
         }
+    a{
+        color: white;
+    }
+    a:hover{
+        color: white;
+    }
+    p{
+        font-size: 20px;
+    }
+        
     </style>
 
 	</head>
