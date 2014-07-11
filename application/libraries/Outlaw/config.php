@@ -12,6 +12,9 @@ $config['database'] = array(
  * https://github.com/vlucas/valitron
  */
 $config['rules'] = array(
+
+    // Some examples
+    /*
     'articles' => array(
         // notice the attribute is wrapped in an array even it's just a string
         'required' => [['ol_title'], ['ol_content']],
@@ -25,7 +28,7 @@ $config['rules'] = array(
         'required' => [['ol_title'], ['ol_content']],
         'lengthMin' => [['ol_title', 5], ['ol_content', 10]]
     ),
-    
+    */
 );
 
 /*

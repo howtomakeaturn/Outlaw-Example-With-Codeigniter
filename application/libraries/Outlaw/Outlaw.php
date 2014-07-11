@@ -39,21 +39,7 @@ class Outlaw{
     static function sanitize($file){
         return preg_replace("([^\w\s\d\-_~,;:\[\]\(\].]|[\.]{2,})", '', $file);
     }
-     /*
-    static function sanitize($string, $force_lowercase = true, $anal = false) {
-        $strip = array("~", "`", "!", "@", "#", "$", "%", "^", "&", "*", "(", ")", "_", "=", "+", "[", "{", "]",
-                       "}", "\\", "|", ";", ":", "\"", "'", "&#8216;", "&#8217;", "&#8220;", "&#8221;", "&#8211;", "&#8212;",
-                       "â€”", "â€“", ",", "<", ".", ">", "/", "?");
-        $clean = trim(str_replace($strip, "", strip_tags($string)));
-        $clean = preg_replace('/\s+/', "-", $clean);
-        $clean = ($anal) ? preg_replace("/[^a-zA-Z0-9]/", "", $clean) : $clean ;
-        return ($force_lowercase) ?
-            (function_exists('mb_strtolower')) ?
-                mb_strtolower($clean, 'UTF-8') :
-                strtolower($clean) :
-            $clean;
-    }
-    */
+
     function __construct(){
       
         require_once('config.php');
@@ -188,6 +174,7 @@ class Outlaw{
         R::trash( $instance );        
     }
     
+    // Fetch data from table.
     function take($table_name=null, $id=null){
         if (!$table_name) throw new OutlawNoTableName();
         if (!$id) throw new OutlawNoId();
@@ -195,6 +182,7 @@ class Outlaw{
         return $instance;
     }
 
+    // Update data into table
     function pollute($table_name=null, $id){
         if (!$table_name) throw new OutlawNoTableName();
         if (!$id) throw new OutlawNoId();
@@ -222,7 +210,6 @@ class Outlaw{
     
     /*
      * Fetch all rows from the table.
-     * It guesses the table name if you don't provide.
      * @params String
      * @return Array of RedBean beans
      */
