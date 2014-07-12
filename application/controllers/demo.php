@@ -12,7 +12,7 @@ class Demo extends CI_Controller {
 
     public function index(){
       
-        $this->data['articles'] = $this->ol->gather('articles');
+        $this->data['articles'] = $this->ol->readAll('articles');
         $this->template->build('demo/index', $this->data);
     }
 
@@ -23,7 +23,7 @@ class Demo extends CI_Controller {
     }
         
     function inject(){
-        if ( $this->ol->inject('articles') ){
+        if ( $this->ol->create('articles') ){
             redirect('/demo');          
         }
         else{
@@ -32,24 +32,24 @@ class Demo extends CI_Controller {
     }
     
     function delete($id){
-        $this->ol->murder('articles', $id);
+        $this->ol->delete('articles', $id);
         redirect('/demo');
     }
 
     function edit(){
         $id = $_REQUEST['ol_id'];
-        $this->data['article'] = $this->ol->take('articles', $id);
+        $this->data['article'] = $this->ol->read('articles', $id);
         $this->template->build('demo/edit', $this->data);        
     }
 
     function view($id){
-        $this->data['article'] = $this->ol->take('articles', $id);
+        $this->data['article'] = $this->ol->read('articles', $id);
         $this->template->build('demo/view', $this->data);        
     }
     
     function update(){
         $id = $_POST['ol_id'];
-        if ($this->ol->pollute('articles', $id)){
+        if ($this->ol->update('articles', $id)){
             redirect('/demo/view/' . $id);
         }
         else{
