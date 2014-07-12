@@ -31,7 +31,7 @@ In config file, set database name and password.
 // config.php
 
 $config['database'] = array(
-    'dns' => 'mysql:host=localhost;dbname=koala',
+    'dsn' => 'mysql:host=localhost;dbname=koala',
     'user' => 'koala',
     'password' => 'koala'
 );
