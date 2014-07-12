@@ -44,7 +44,7 @@ class Outlaw{
       
         require_once('config.php');
 
-        R::setup($config['database']['dns'], $config['database']['user'], $config['database']['password']);    
+        R::setup($config['database']['dsn'], $config['database']['user'], $config['database']['password']);    
         
         V::langDir(__DIR__.'/src/Valitron/lang'); // always set langDir before lang.
         V::lang($config['lang']);
